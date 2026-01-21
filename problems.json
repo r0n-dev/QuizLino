@@ -1,0 +1,40 @@
+[
+  {
+    "id": 1,
+    "difficulty": "leicht",
+    "title": "Hauptstadt von Frankreich?",
+    "description": "Wie heißt die Hauptstadt von Frankreich?",
+    "answers": ["paris", "Paris"],
+    "tags": ["geografie", "frankreich", "hauptstädte der welt"],
+    "hint": "Die Stadt ist bekannt für den Eiffelturm."
+  },
+  {
+    "id": 2,
+    "difficulty": "mittel",
+    "title": "Chemisches Element: H",
+    "description": "Welches chemische Element hat das Symbol 'H' im Periodensystem?",
+    "answers": ["wasserstoff", "hydrogen"],
+    "tags": ["chemie", "naturwissenschaften"],
+    "hint": "Es ist das leichteste Element."
+  },
+  {
+    "id": 3,
+    "difficulty": "schwer",
+    "title": "Jahr der Mondlandung",
+    "description": "In welchem Jahr landete die erste bemannte Mission auf dem Mond?",
+    "answers": ["1969"],
+    "tags": ["geschichte", "raumfahrt", "technik"],
+    "hint": "Die Mission hieß Apollo 11."
+  },
+  {
+    "id": 4,
+    "difficulty": "mittel",
+    "type": "image",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/1024px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
+    "title": "Welches Bauwerk ist das?",
+    "description": "Wie heißt dieses antike Bauwerk in Rom?",
+    "answers": ["kolosseum", "colosseum"],
+    "tags": ["geschichte", "kunst & architektur", "italien"],
+    "hint": "Es war ein Amphitheater im alten Rom."
+  }
+]

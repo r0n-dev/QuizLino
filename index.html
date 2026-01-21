@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizlino</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app-container">
+        <div id="lobbyScreen" class="lobby-wrapper">
+            
+            <div class="lobby-header">
+                <img src="assets/logo.png" alt="Quizlino Logo" class="main-logo-png">
+                <p class="description">Beweise dein Wissen in Echtzeit-Duellen. Kein Multiple-Choice, nur dein Verstand gegen deine Freunde.</p>
+            </div>
+
+            <header class="lobby-top-header">
+                <button id="openMenuBtn" class="burger-menu-btn">
+                    <i class="material-icons">menu</i>
+                </button>
+            </header>
+
+            <aside id="sideMenu" class="side-menu">
+                <div class="side-menu-header">
+                    <h3>Menü</h3>
+                    <button id="closeMenuBtn" class="close-btn">&times;</button>
+                </div>
+                <nav class="side-menu-nav">
+                    <a href="#" id="openProfileBtn" class="side-menu-link"><i class="material-icons">person</i><span>Profil</span></a>
+                    <a href="#" id="openGuildBtn" class="side-menu-link"><i class="material-icons">groups</i><span>Gilde</span></a>
+                    <a href="#" id="openMissionsBtn" class="side-menu-link"><i class="material-icons">assignment</i><span>Missionen</span></a>
+                    <a href="#" id="openShopBtnLobby" class="side-menu-link"><i class="material-icons">storefront</i><span>Shop</span></a>
+                    <a href="#" id="openCasinoBtn" class="side-menu-link"><i class="material-icons">casino</i><span>🎰 Casino</span></a>
+                    <a href="#" id="openBankBtn" class="side-menu-link"><i class="material-icons">account_balance</i><span>🏦 Bank</span></a>
+                    <a href="#" id="openTravelBtn" class="side-menu-link"><i class="material-icons">public</i><span>Weltreise</span></a>
+                    <a href="#" id="openUpdateLogBtn" class="side-menu-link"><i class="material-icons">history</i><span>Update Log</span></a>
+                    <a href="#" id="openAboutDevBtn" class="side-menu-link"><i class="material-icons">code</i><span>Über den Entwickler</span></a>
+                    <a href="#" id="openRulesBtn" class="side-menu-link"><i class="material-icons">help_outline</i><span>Regeln & Hilfe</span></a>
+                    <a href="#" id="openReportBtn" class="side-menu-link"><i class="material-icons">feedback</i><span>Melden / Feedback</span></a>
+                </nav>
+            </aside>
+            <div id="menuOverlay" class="menu-overlay"></div>
+
+            <div class="lobby-tab-container">
+                <nav class="lobby-tab-nav">
+                    <button class="lobby-tab-btn active" data-tab="tab-1" data-i18n="lobby.tab.quickstart">Schnelleinstieg</button>
+                    <button class="lobby-tab-btn" data-tab="tab-2">Spiel erstellen</button>
+                </nav>
+
+                <div class="lobby-tab-content active" id="tab-1">
+    <div class="lobby-card">
+        <div id="loginView">
+            <input type="text" id="playerNameInput" placeholder="Dein Spielername..." maxlength="15" data-i18n="lobby.playerName[placeholder]">
+        </div>
+        <div id="loggedInView" class="hidden">
+            <p id="welcomeMessage" class="welcome-message"></p>
+            <button id="logoutBtn" class="action-button secondary-action full-width">Name ändern / Ausloggen</button>
+        </div>
+        <p class="input-subtitle">Wähle deinen Avatar:</p>
+        <div id="avatarSelector" class="avatar-selector"></div>
+    </div>
+
+    <div class="lobby-card">
+        <h3>Einem Spiel beitreten</h3>
+        <div class="join-action">
+            <input type="text" id="roomIdInput" placeholder="Raum ID eingeben...">
+            <button id="joinRoomBtn" title="Beitreten"><i class="material-icons">arrow_forward</i></button>
+            <button id="spectateRoomBtn" title="Zuschauen"><i class="material-icons">visibility</i></button>
+        </div>
+        <button id="browsePublicRoomsBtn" class="action-button secondary-action full-width">Öffentliche Spiele suchen</button>
+    </div>
+</div>
+
+<div class="lobby-tab-content" id="tab-2">
+    <div class="lobby-card">
+        <h3>Neues Spiel erstellen</h3>
+        <div class="host-settings-grid">
+            <div><label>Spielmodus<select id="gameModeSelect"><option value="classic">Klassisch</option><option value="elimination">Elimination</option><option value="survival">Survival</option></select></label></div>
+            <div><label>Schwierigkeit<select id="difficultySelect"><option value="leicht">Leicht</option><option value="mittel">Mittel</option><option value="schwer">Schwer</option></select></label></div>
+            <div><label>Runden<input type="number" id="roundsInput" min="1" max="100" value="5"></label></div>
+            <div><label>Zeit (s)<input type="number" id="durationInput" min="5" max="360" value="20"></label></div>
+        </div>
+        <div class="public-room-label" style="margin-top: 15px;">
+            <input type="checkbox" id="isPublicCheckbox">
+            <label for="isPublicCheckbox">Diesen Raum öffentlich machen</label>
+        </div>
+        <button id="createRoomBtn" class="primary-action full-width">Raum erstellen</button>
+    </div>
+</div>
+            </div>
+        </div>
+        <div id="gameScreen" class="screen hidden">
+            <div class="game-layout">
+                <aside class="game-sidebar">
+                    <div class="room-info">
+                        <h3>Raum <span id="roomIdDisplay" title="Raum-ID kopieren!"></span></h3>
+                        <p><span id="spectatorCount">0</span> Zuschauer</p>
+                    </div>
+                    
+                    <div class="live-ranking-container">
+                        <h3>Live Rangliste</h3>
+                        <hr>
+                        <ul id="playerList"></ul>
+                    </div>
+
+                    <div id="eliminated-actions-panel" class="hidden">
+                        <h3>Rache-Modus</h3>
+                        <p>Du bist raus, aber nicht nutzlos! Sabotiere die anderen mit deinen Q-Coins.</p>
+                        <div class="sabotage-actions">
+                            <button id="sabotage-hint" data-cost="100"><span>Hinweis für alle leaken</span><small>100 </small></button>
+                            <button id="sabotage-time" data-cost="75"><span>Zeit stehlen (-5s)</span><small>75 </small></button>
+                            <button id="sabotage-swap" data-cost="50"><span>Frage tauschen</span><small>50 </small></button>
+                        </div>
+                    </div>
+
+                    <div id="spectator-betting-panel" class="hidden">
+                        <h3>Zuschauer-Aktionen</h3>
+                        <p>Wette Q-Coins auf einen Spieler! Bei richtiger Antwort des Spielers verdoppelst du deinen Einsatz.</p>
+                        <ul id="spectator-player-list" class="spectator-player-list"></ul>
+                    </div>
+                    
+                    <div id="game-status-box">
+                        <p id="gameStatusDisplay">Warte auf Spieler...</p>
+                        <div id="activeEventIndicator" class="hidden"></div>
+                    </div>
+
+                    <button id="startGameBtn" class="hidden">Spiel starten</button>
+                </aside>
+
+                <main class="game-main">
+                    <div class="game-main-header">
+                        <button id="backToLobbyBtnNew" class="secondary-action">Zurück zur Lobby</button>
+                    </div>
+
+                    <div id="waitingRoomView">
+                        <div id="waitingMessage" class="waiting-message">
+                            <h2>Warte auf den Start des Spiels...</h2>
+                            <p>Lade deine Freunde mit der Raum-ID ein!</p>
+                            
+                            <div class="waiting-room-settings-display">
+                                <h4>Spieleinstellungen:</h4>
+                                <div id="waiting-room-settings">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="timer-container"><div id="timer-bar"></div></div>
+                    <div id="round-counter"></div>
+                    
+                    <div id="problemCard" class="problem-card hidden">
+                        <h2 id="problemTitle"></h2>
+                        <p id="problemDescription"></p>
+                        <p id="problemHint" class="hidden"></p>
+                        <div id="solution-wrapper" class="solution-wrapper hidden">
+                            <div id="solutionArea" class="solutionArea">
+                                <input type="text" id="solutionInput" placeholder="Deine Antwort hier...">
+                                <button id="submitBtn">Senden</button>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <div id="chat-container" class="chat-hidden">
+             <div class="chat-header"><span>Live Chat</span><button id="chat-toggle-btn" class="close-btn" style="font-size: 1.2em;">×</button></div>
+            <ul id="chat-messages"></ul>
+            <form id="chat-form" autocomplete="off">
+                <input id="chat-input" type="text" maxlength="200" placeholder="Nachricht...">
+                <button type="submit" id="chat-send-btn">Senden</button>
+            </form>
+        </div>
+        <div id="countdownOverlay" class="overlay hidden">
+            <div class="overlay-box countdown-box">
+                <div id="countdown-round-info">Runde 1 / 5</div>
+                <div id="countdown-category-info">Kategorie: Allgemein</div>
+                <h3 id="countdown-question-title">Frage wird geladen...</h3>
+                <span id="countdown-timer-text">5</span>
+            </div>
+        </div>
+
+        <div id="eliminationOverlay" class="overlay hidden">
+            <div class="overlay-box">
+                <h2>Eliminiert!</h2>
+                <p>Leider hat es für <strong class="eliminated-player-name"></strong> dieses Mal nicht gereicht.</p>
+            </div>
+        </div>
+
+        <div id="duelOverlay" class="overlay hidden">
+            <div class="overlay-box duel-box">
+                <div class="duel-header">🔥 DUELL-ARENA 🔥</div>
+                <h2>Überleben des Schwächsten!</h2>
+                <div class="duel-participants">
+                    <div id="duelist1" class="duelist-card"></div><span class="vs-text">VS</span><div id="duelist2" class="duelist-card"></div>
+                </div>
+                <p>Der langsamste oder falsche Spieler wird eliminiert!</p>
+            </div>
+        </div>
+
+        <div id="bettingOverlay" class="overlay hidden">
+            <div class="overlay-box betting-box">
+                <h2>Wetten, bitte! (<span id="bettingTimer">10</span>s)</h2>
+                <p>Setze QCoins auf dich selbst. Richtige Antwort = 150% Gewinn!</p>
+                <p>Dein Guthaben: <strong id="my-qcoins-betting" style="color: var(--accent-warning);">0</strong></p>
+                <div class="betting-action">
+                    <input type="number" id="betAmountInput" placeholder="Dein Einsatz...">
+                    <button id="placeBetBtn">Wette platzieren</button>
+                </div>
+                <p id="betConfirmationMsg"></p>
+            </div>
+        </div>
+        
+        <div id="categoryChoiceOverlay" class="overlay hidden">
+            <div class="overlay-box category-choice-box">
+                <h2><span id="categoryChooserName"></span> wählt die nächste Kategorie...</h2>
+                <div id="categoryButtonsContainer" class="category-buttons"></div>
+            </div>
+        </div>
+        
+        <div id="eventVotingOverlay" class="overlay hidden">
+            <div class="overlay-box event-voting-box">
+                <h2>Chaos-Event Abstimmung! (<span id="eventVoteTimer">10</span>s)</h2>
+                <p>Zuschauer, wählt das nächste Event!</p>
+                <div id="eventChoicesContainer" class="event-choices"></div>
+            </div>
+        </div>
+
+        <div id="gameOverOverlay" class="overlay hidden">
+            <div class="overlay-box game-over-box">
+                <h2 id="winner-announcement">Sieger!</h2>
+                <ul id="final-ranking"></ul>
+                <div class="game-over-buttons">
+                    <button id="playAgainBtn" class="hidden">Revanche</button>
+                    <button id="backToLobbyBtn">Zurück zur Lobby</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="guildOverlay" class="overlay hidden">
+            <div class="overlay-box guild-container">
+               <div id="guild-view" class="hidden">
+    <div class="guild-header-v2">
+        <div class="guild-info-v2">
+            <h2 id="guild-name-display">[TAG] Gildenname</h2>
+            <span id="guild-rank-display">Lade...</span>
+        </div>
+        <div class="guild-treasury-v2">
+            <span>Gildenkasse</span>
+            <strong id="guild-treasury-display">0 </strong>
+        </div>
+    </div>
+
+    <div class="guild-content-v2">
+        <div class="guild-main-content">
+            <nav class="guild-tabs">
+                <button class="guild-tab-btn active" data-tab="members">Mitglieder</button>
+                <button class="guild-tab-btn" data-tab="actions">Aktionen</button>
+                <button id="guild-settings-tab-btn" class="guild-tab-btn hidden" data-tab="settings">Verwaltung</button>
+            </nav>
+
+            <div id="guild-tab-content-container">
+                <div class="guild-tab-pane active" id="tab-members">
+                    <h3 class="guild-pane-title">Mitglieder (<span id="guild-member-count">0</span>/20)</h3>
+                    <ul id="guild-member-list"></ul>
+                </div>
+
+                <div class="guild-tab-pane" id="tab-actions">
+                     <div class="guild-section">
+                        <h3>An Gilde spenden</h3>
+                        <div class="guild-sub-actions">
+                            <input type="number" id="guildDonateAmount" placeholder="Betrag...">
+                            <button id="guildDonateBtn">Spenden</button>
+                        </div>
+                    </div>
+                    <div class="guild-section">
+                        <h3>Freunde einladen</h3>
+                        <p class="section-description">Teile diesen Code, um Freunde in deine Gilde einzuladen.</p>
+                        <div class="invite-code-container">
+                            <input type="text" id="guild-invite-code" readonly>
+                            <button id="copy-guild-id-btn">Kopieren</button>
+                        </div>
+                    </div>
+                    <div class="guild-section">
+                         <button id="leaveGuildBtn" class="danger-btn">Gilde verlassen</button>
+                    </div>
+                </div>
+
+                <div class="guild-tab-pane" id="tab-settings">
+                    <div class="guild-section">
+                        <h3>Gilden-Anführer Werkzeuge</h3>
+                        <p class="section-description">Verwalte hier die Gildenkasse.</p>
+                         <div class="guild-sub-actions">
+                            <select id="payout-member-select"></select>
+                            <input type="number" id="payout-amount-input" placeholder="Auszahlung...">
+                            <button id="payout-btn">Auszahlen</button>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+        </div>
+
+        <div id="guild-chat-container">
+            <h3>Gilden-Chat</h3>
+            <ul id="guild-chat-messages"></ul>
+            <form id="guild-chat-form">
+                <input type="text" id="guild-chat-input" placeholder="Nachricht an die Gilde...">
+                <button type="submit">Senden</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+                <div id="no-guild-view" class="hidden">
+                    <h3>Du bist in keiner Gilde!</h3>
+                    <p>Schließe dich einer Gilde an oder gründe deine eigene, um mit Freunden zu spielen und Belohnungen zu verdienen.</p>
+                    <div class="guild-actions">
+                        <div class="guild-action-card">
+                            <h4>Gilde gründen (Kosten: 500 )</h4>
+                            <input type="text" id="createGuildNameInput" placeholder="Gildenname (3-20 Zeichen)">
+                            <input type="text" id="createGuildTagInput" placeholder="Tag (3-4 Zeichen)">
+                            <button id="createGuildBtn">Gründen</button>
+                        </div>
+                        <div class="guild-action-card">
+                            <h4>Gilde beitreten</h4>
+                            <input type="text" id="joinGuildIdInput" placeholder="Einladungs-ID der Gilde">
+                            <button id="joinGuildBtn">Beitreten</button>
+                        </div>
+                    </div>
+                </div>
+                <button id="closeGuildBtn" class="close-btn">&times;</button>
+            </div>
+        </div>
+        
+        <div id="shopOverlay" class="overlay hidden">
+            <div class="overlay-box shop-container">
+                <div class="shop-header">
+                    <h2>Shop</h2><div class="shop-qcoins-display"><span id="shop-qcoins">0</span> </div><button id="closeShopBtn" class="close-btn">×</button>
+                </div>
+                <div class="shop-content-wrapper">
+                    <nav class="shop-nav">
+                        <button class="shop-nav-btn" data-tab="schrift">Schriftarten</button>
+                        <button class="shop-nav-btn" data-tab="farben">Chat-Farben</button>
+                        <button class="shop-nav-btn" data-tab="animationen">Animationen</button>
+                        <button class="shop-nav-btn" data-tab="avatare">Avatare</button> 
+                    </nav>
+                    <div id="shopItemsContainer" class="shop-items-content">
+                        <div id="shop-tab-schrift" class="shop-tab-content"></div>
+                        <div id="shop-tab-farben" class="shop-tab-content"></div>
+                        <div id="shop-tab-animationen" class="shop-tab-content"></div>
+                        <div id="shop-tab-avatare" class="shop-tab-content"></div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="profileOverlay" class="overlay hidden">
+            <div class="overlay-box profile-box">
+                <div class="profile-header">
+                    <div class="profile-avatar-display">
+                        <img id="profile-avatar-img" src="assets/avatars/avatar1.png" alt="Avatar">
+                        <div class="avatar-level-badge">Lv. <span id="profile-avatar-level">1</span></div>
+                        <div class="avatar-xp-bar">
+                            <div id="profile-avatar-xp-fill" class="avatar-xp-fill"></div>
+                            <span id="profile-avatar-xp-text" class="avatar-xp-text">0 / 100 XP</span>
+                        </div>
+                    </div>
+                    <h2 id="profile-name"></h2>
+                    <button id="closeProfileBtn" class="close-btn">&times;</button>
+                </div>
+                <div class="profile-content">
+                    <div class="profile-stats-grid">
+                        <div class="stat-card">
+                            <h4>Q-Coins</h4>
+                            <span id="profile-qcoins-display">0</span> 
+                        </div>
+                        <div class="stat-card">
+                            <h4>Siege</h4>
+                            <span id="profile-wins">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Spiele</h4>
+                            <span id="profile-games">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Siegrate</h4>
+                            <span id="profile-winrate">0%</span>
+                        </div>
+                    </div>
+                    <div class="profile-section">
+                        <h3>Titel</h3>
+                        <p class="section-description">Wähle einen freigeschalteten Titel, um ihn vor deinem Namen anzuzeigen.</p>
+                        <div id="profile-titles-list" class="titles-list"></div>
+                    </div>
+                    <div class="profile-section">
+                        <h3>Spielhistorie</h3>
+                        <p class="section-description">Deine letzten 10 abgeschlossenen Spiele.</p>
+                        <ul id="profile-game-history" class="achievements-list"></ul>
+                    </div>
+                    <div class="profile-section">
+                        <h3>Avatar-Perks</h3>
+                        <p class="section-description">Passive Fähigkeiten, die durch Avatar-Level freigeschaltet werden.</p>
+                        <ul id="profile-perks-list" class="achievements-list"></ul>
+                    </div>
+                    <div class="profile-section">
+                        <h3>Erfolge</h3>
+                        <ul id="profile-achievements-list" class="achievements-list"></ul>
+                    </div>
+                    <div class="profile-section danger-zone">
+                        <h3>Gefahrenzone</h3>
+                        <p class="section-description">Diese Aktion kann nicht rückgängig gemacht werden. Alle deine Daten, Erfolge und Q-Coins gehen für immer verloren.</p>
+                        <button id="deleteAccountBtn" class="danger-btn">Meinen Account dauerhaft löschen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="missionsOverlay" class="overlay hidden">
+            <div class="overlay-box missions-container">
+                <div class="missions-header">
+                    <h2>Tagesmissionen</h2><button id="closeMissionsBtn" class="close-btn">×</button>
+                </div>
+                <div id="missionsList" class="missions-list"></div>
+            </div>
+        </div>
+
+        <div id="suddenDeathOverlay" class="overlay hidden">
+            <div class="overlay-box sudden-death-box">
+                <div class="sudden-death-header">🔥 SUDDEN DEATH 🔥</div>
+                <h2>Gleichstand! Ein Tiebreaker entscheidet!</h2>
+                <div id="suddenDeathParticipants" class="sudden-death-participants"></div>
+                <p>Die erste richtige Antwort gewinnt. Eine falsche Antwort führt zum Ausscheiden!</p>
+            </div>
+        </div>
+
+        <div id="playerChoiceOverlay" class="overlay hidden">
+            <div class="overlay-box player-choice-box">
+                <h2><span id="player-choice-chooser-name"></span> wählt das nächste Event!</h2>
+                <p>Als Runden-Sieger entscheidest du, was als Nächstes passiert.</p>
+                <div id="playerEventChoicesContainer" class="player-event-choices"></div>
+            </div>
+        </div>
+
+        <div id="rulesOverlay" class="overlay hidden">
+            <div class="overlay-box large-box">
+                <div class="overlay-header">
+                    <h2>Spielregeln & Hilfe</h2>
+                    <button id="closeRulesBtn" class="close-btn">&times;</button>
+                </div>
+                <div class="overlay-content">
+                    <nav id="rulesNav" class="rules-nav">
+                        <button class="rules-nav-btn active" data-section="gameplay">Grundlagen</button>
+                        <button class="rules-nav-btn" data-section="modes">Spielmodi</button>
+                        <button class="rules-nav-btn" data-section="progress">Fortschritt & Belohnungen</button>
+                        <button class="rules-nav-btn" data-section="currency">Währung & Shop</button>
+                        <button class="rules-nav-btn" data-section="events">Chaos-Events</button>
+                        <button class="rules-nav-btn" data-section="duels">Duelle & Wetten</button>
+                        <button class="rules-nav-btn" data-section="guilds">Gilden</button>
+                        <button class="rules-nav-btn" data-section="community">Community & Account</button>
+                        <button class="rules-nav-btn" data-section="about">Über das Spiel</button>
+                    </nav>
+
+                <div class="rules-sections">
+                       <section id="gameplay" class="rules-section active">
+                            <h3>Grundlagen des Gameplays</h3>
+                            <p>Willkommen bei Quizlino! Das Ziel ist, durch Wissen, Strategie und schnelle Reaktionen die meisten Punkte zu sammeln und zur Legende aufzusteigen. Im Gegensatz zu vielen anderen Quizspielen gibt es hier <strong>kein Multiple-Choice</strong>. Du musst deine Antworten selbst eintippen!</p>
+                            <h4>🧠 Intelligente KI-Bewertung</h4>
+                            <p>Unsere KI ist darauf trainiert, nicht nur exakte Übereinstimmungen zu erkennen. Sie versteht auch Antworten mit kleinen Tippfehlern, alternativen Formulierungen oder fehlenden Teilen, solange die Kernaussage stimmt.</p>
+                            <ul>
+                                <li><strong>Beispiel:</strong> Die richtige Antwort ist "Christoph Kolumbus". Die KI wird wahrscheinlich auch "Kolumbus", "Chr. Kolumbus" oder sogar "Kristof Kolumbus" als richtig werten.</li>
+                            </ul>
+                            <h4>🏆 Punktevergabe</h4>
+                            <ul>
+                                <li><strong>Basis-Punkte:</strong> 100 Punkte für jede richtige Antwort.</li>
+                                <li><strong>Geschwindigkeitsbonus:</strong> Je schneller du antwortest, desto höher der Bonus. Eine sehr schnelle Antwort gibt +50, eine schnelle +25 Bonuspunkte.</li>
+                                <li><strong>Siegesserien (Streaks):</strong> Für jede weitere richtige Antwort in Folge erhältst du zusätzlich +15 Bonuspunkte pro Runde im Streak (also +15, +30, +45...). Halte deine Serie am Leben!</li>
+                                <li><strong>Malus:</strong> -25 Punkte für eine falsche Antwort oder wenn die Zeit abläuft.</li>
+                            </ul>
+                        </section>
+
+                        <section id="modes" class="rules-section">
+                            <h3>Spielmodi</h3>
+                            <h4>Klassischer Modus</h4>
+                            <p>Jeder spielt für sich. Am Ende einer festen Rundenanzahl gewinnt der Spieler mit den meisten Punkten. Ein reiner Test deines Wissens und deiner Geschwindigkeit.</p>
+                            <h4>Elimination</h4>
+                            <p>Der Modus mit hohem Druck! Nach jeder Runde wird der Spieler mit der niedrigsten Gesamtpunktzahl eliminiert. Das Ziel ist es, als letzter Spieler übrig zu bleiben. Taktik ist hier entscheidend, denn es geht nicht nur darum, viele Punkte zu sammeln, sondern vor allem darum, nicht die wenigsten zu haben. Dieser Modus beinhaltet spezielle Mechaniken wie Duelle und die "Letzte Rache".</p>
+                            <h4>Survival (Überleben)</h4>
+                            <p>Ein rundenbasierter Modus auf Highscore-Jagd. Jeder Spieler ist nacheinander dran und bekommt eine Frage nach der anderen gestellt. Dein Ziel: Beantworte so viele Fragen wie möglich hintereinander richtig. Sobald du einen Fehler machst oder die Zeit abläuft, ist dein Zug beendet. Wer am Ende die längste Serie (den höchsten Score) hat, gewinnt.</p>
+                        </section>
+
+                        <section id="progress" class="rules-section">
+                            <h3>Fortschritt & Belohnungen</h3>
+                            <p>Dein Weg in Quizlino ist mehr als nur einzelne Spiele. Du entwickelst deinen Account, schaltest Boni frei und zeigst allen deine Erfolge.</p>
+                            <h4>⭐ Spieler-Level & XP</h4>
+                            <p>Dein Profil hat ein globales Level. Du sammelst <strong>Erfahrungspunkte (XP)</strong> durch richtige Antworten, Siege, gewonnene Duelle und den Abschluss von Missionen. Jeder Levelaufstieg bringt dir Q-Coins (Level x 10) und schaltet eventuell neue Perks frei.</p>
+                            <h4>✨ Avatar-Perks</h4>
+                            <p>Bei Erreichen bestimmter Level schaltest du dauerhafte, passive Boni frei, sogenannte <strong>Perks</strong>. Diese Boni sind automatisch aktiv und geben dir einen permanenten Vorteil im Spiel.</p>
+                            <ul>
+                                <li><strong>Level 5: Q-Coin-Segen</strong> - Erhöht alle Q-Coin-Gewinne aus Wetten und Belohnungen um 10%.</li>
+                                <li><strong>Level 10: Streak-Retter</strong> - Deine erste falsche Antwort pro Spiel bricht deine Siegesserie nicht.</li>
+                                <li><strong>Level 15: Kostenloser Hinweis</strong> - Du startest jedes Spiel mit einem kostenlosen Hinweis-Joker.</li>
+                            </ul>
+                            <h4>📜 Tagesmissionen</h4>
+                            <p>Jeden Tag erhältst du drei neue Missionen. Erfülle die angegebenen Ziele (z.B. "Gewinne ein Spiel" oder "Beantworte 5 schwere Fragen"), um eine Belohnung in Form von Q-Coins und XP zu erhalten. Abgeschlossene Missionen kannst du im Missions-Fenster einfordern.</p>
+                            <h4>🏆 Erfolge & Titel</h4>
+                            <p>Schalte Meilensteine für besondere Leistungen frei (z.B. "Gewinne 10 Spiele"), um eine große Summe an Q-Coins und exklusive <strong>Titel</strong> zu erhalten. Titel kannst du in deinem Profil auswählen und sie werden vor deinem Namen im Spiel angezeigt, um deine Errungenschaften zu präsentieren.</p>
+                        </section>
+
+                        <section id="currency" class="rules-section">
+                            <h3>Währung & Shop</h3>
+                            <h4>🪙 Q-Coins</h4>
+                            <p><strong>Q-Coins</strong> sind die Währung in Quizlino. Du bist reich an Wissen? Dann wirst du auch reich an Q-Coins! Du verdienst sie durch:</p>
+                            <ul>
+                                <li>Spielen & Gewinnen</li>
+                                <li>Abschluss von Tagesmissionen & Erfolgen</li>
+                                <li>Erfolgreiche Wetten auf dich selbst</li>
+                                <li>Level-Aufstiege</li>
+                                <li>Auszahlungen aus der Gildenkasse</li>
+                            </ul>
+                            <h4>🎰 Casino & Bank 🏦</h4>
+                             <p>Brauchst du eine Pause vom Quizzen? Im Menü (Burger-Icon oben rechts) findest du das <strong>Casino</strong> und die <strong>Bank</strong>.</p>
+                            <ul>
+                                <li><strong>Casino:</strong> Teste dein Glück an der Slot-Maschine und versuche, deine Q-Coins zu vervielfachen. Hohes Risiko, hohe Belohnung!</li>
+                                <li><strong>Bank:</strong> Wenn das Glück mal nicht auf deiner Seite war, kannst du bei der Bank einen Kredit aufnehmen, um wieder ins Spiel zu kommen. Aber Achtung: Schulden müssen zurückgezahlt werden!</li>
+                            </ul>
+
+                            <h4>🛒 Der Shop</h4>
+                            <p>Im Shop (ebenfalls im Menü) kannst du deine hart verdienten Q-Coins für coole kosmetische Gegenstände und strategische Power-Ups ausgeben. Das Angebot umfasst:</p>
+                            <ul>
+                                <li><strong>Joker (Power-Ups):</strong> Einmalig einsetzbare Hilfsmittel für eine Runde.</li>
+                                <li><strong>Avatare:</strong> Neue Profilbilder, um deinen Charakter zu personalisieren.</li>
+                                <li><strong>Chat-Farben:</strong> Ändere die Farbe deines Namens im Chat.</li>
+                                <li><strong>Schriftarten:</strong> Ändere die globale Schriftart des Spiels für dich.</li>
+                                <li><strong>Animationen (Chat-FX):</strong> Verleihe deinem Namen im Chat spektakuläre, animierte Effekte.</li>
+                            </ul>
+                        </section>
+
+                        <section id="events" class="rules-section">
+                            <h3>Chaos-Events</h3>
+                            <p>Um das Spiel spannend zu halten, können zufällige Events das Spielgeschehen komplett auf den Kopf stellen. Sie werden entweder von den Zuschauern gewählt oder vom Rundensieger bestimmt.</p>
+                            <h4>😵‍💫 Visuelle Störungen</h4>
+                            <p>Diese Events fordern deine Konzentration mit verrückten Bildschirmeffekten heraus.</p>
+                            <ul>
+                                <li><strong>Digitaler Sturm:</strong> Die Frage ist in einem Sturm aus digitalen Störungen versteckt.</li>
+                                <li><strong>Spiegelverkehrt:</strong> Der gesamte Bildschirm ist horizontal gespiegelt.</li>
+                                <li><strong>3D-Brillen-Modus:</strong> Alles wirkt wie ein alter 3D-Film ohne Brille.</li>
+                                <li><strong>UFO-Entführung:</strong> Ein UFO entführt zufällige Teile der Benutzeroberfläche.</li>
+                                <li><strong>Pixel-Panik:</strong> Dein Bildschirm wird in grobe Pixelblöcke verwandelt.</li>
+                                <li><strong>Jumpscare:</strong> Ein plötzlicher, kurzer Schock-Effekt!</li>
+                                <li><strong>Disco Time:</strong> Der Bildschirm wird zur Tanzfläche mit Lichtern und Musik!</li>
+                            </ul>
+                            <h4>🕹️ Gameplay-Veränderer</h4>
+                            <p>Diese Events ändern die fundamentalen Regeln für eine Runde.</p>
+                            <ul>
+                                <li><strong>Turbo-Runde:</strong> Die Antwortzeit wird halbiert.</li>
+                                <li><strong>Pop-up-Wahnsinn:</strong> Dein Bildschirm wird mit ablenkenden Videos geflutet.</li>
+                                <li><strong>Tasten-Chaos:</strong> Deine Tastatur und Maus spielen verrückt.</li>
+                                <li><strong>Sprach-Wirrwarr:</strong> Die Frage wird in einer unlesbaren Fantasiesprache angezeigt.</li>
+                                <li><strong>Lockvogel-Antwort:</strong> Ein Pop-up zeigt eine falsche "Lösung" an und folgt deinem Cursor.</li>
+                                <li><strong>Sicherheits-Check:</strong> Du musst vor dem Absenden ein sinnloses Captcha lösen.</li>
+                                <li><strong>Fluch des Autokorrektors:</strong> Deine Eingabe wird durch zufällige Wörter ersetzt.</li>
+                            </ul>
+                            <h4>📊 Punkte-Manipulation</h4>
+                            <p>Diese Events greifen direkt in die Punktestände ein.</p>
+                            <ul>
+                                <li><strong>Umgekehrte Wertung:</strong> Richtige Antworten geben Minuspunkte, falsche Pluspunkte!</li>
+                                <li><strong>Punkte-Tausch:</strong> Zwei zufällige Spieler tauschen ihre Punktestände.</li>
+                                <li><strong>Punkte-Lotterie:</strong> Die Punkte werden zufällig vergeben.</li>
+                                <li><strong>Vampir-Runde:</strong> Stehle Punkte von Spielern mit falschen Antworten.</li>
+                                <li><strong>Kopfgeldjagd:</strong> Auf den Führenden wird ein Kopfgeld ausgesetzt. Wer ihn stoppt, kassiert es.</li>
+                            </ul>
+                        </section>
+
+                        <section id="duels" class="rules-section">
+                            <h3>Duelle & Wetten</h3>
+                            <h4>💰 Wetten & Zuschauen</h4>
+                            <p>Vor bestimmten Runden startet eine Wettphase. Hier kannst du Q-Coins einsetzen, um deinen Reichtum zu vermehren.</p>
+                            <ul>
+                                <li><strong>Spieler-Wette:</strong> Setze Q-Coins auf dich selbst. Beantwortest du die Frage richtig, erhältst du 150% deines Einsatzes zurück (Einsatz + 50% Gewinn).</li>
+                                <li><strong>Zuschauer-Wette:</strong> Als Zuschauer kannst du auf aktive Spieler wetten. Antwortet dein gewählter Champion richtig, verdoppelst du deinen Einsatz!</li>
+                            </ul>
+                            <h4>🔥 Duelle & Sudden Death</h4>
+                            <p>In diesen Hochdruck-Situationen entscheidet sich oft das Spiel.</p>
+                            <ul>
+                                <li><strong>Duelle (Elimination-Modus):</strong> Die beiden Spieler mit den wenigsten Punkten treten in einer Blitzrunde gegeneinander an. Gleiche, leichte Frage, kurze Zeit. Wer zuerst richtig antwortet, überlebt. Wer falsch antwortet oder zu langsam ist, fliegt raus!</li>
+                                <li><strong>Sudden Death (Bei Gleichstand):</strong> Bei einem Unentschieden auf dem ersten Platz entscheidet eine einzige, sehr schwere Frage über den alleinigen Sieg. Die erste richtige Antwort gewinnt sofort das Spiel.</li>
+                            </ul>
+                            <h4>😈 Sabotage & Letzte Rache</h4>
+                            <p>Ausgeschieden zu sein, bedeutet nicht das Ende! Als eliminierter Spieler kannst du deine restlichen Q-Coins nutzen, um die verbliebenen Spieler zu sabotieren:</p>
+                            <ul>
+                                <li><strong>Hinweis leaken:</strong> Decke den Hinweis für alle Spieler auf.</li>
+                                <li><strong>Zeit stehlen:</strong> Verkürze die Antwortzeit in der nächsten Runde.</li>
+                                <li><strong>Frage tauschen:</strong> Ersetze die aktuelle Frage durch eine neue.</li>
+                                <li><strong>Letzte Rache (Elimination):</strong> Nach dem Ausscheiden kannst du einem Spieler deiner Wahl -75 Strafpunkte aufbrummen. Wähle dein Opfer weise!</li>
+                            </ul>
+                        </section>
+
+                        <section id="guilds" class="rules-section">
+                            <h3>Gilden</h3>
+                            <p>Gründe eine Gilde oder tritt einer bei, um mit Freunden zusammenzuspielen, zu chatten und um den wöchentlichen Gilden-Ruhm zu kämpfen.</p>
+                            <h4>🤝 Beitritt & Gründung</h4>
+                            <ul>
+                                <li><strong>Gründen:</strong> Gründe deine eigene Gilde für 500 Q-Coins. Du benötigst einen Namen (3-20 Zeichen) und einen Tag (3-4 Zeichen). Als Gründer bist du der Anführer.</li>
+                                <li><strong>Beitreten:</strong> Tritt einer Gilde mit deren Einladungs-ID bei, die dir ein Mitglied geben kann. Eine Gilde kann maximal 20 Mitglieder haben.</li>
+                            </ul>
+                            <h4>🏛️ Gilden-Features</h4>
+                            <ul>
+                                <li><strong>Gilden-Chat:</strong> Jede Gilde hat einen privaten Chat, um Strategien zu besprechen oder einfach nur zu plaudern.</li>
+                                <li><strong>Gilden-Kasse & Spenden:</strong> Spende Q-Coins an deine Gilde, um gemeinsame Ziele zu erreichen. Der Gilden-Anführer kann dieses Geld an verdiente Mitglieder auszahlen.</li>
+                                <li><strong>Mitgliederverwaltung:</strong> Der Anführer kann Mitglieder aus der Gilde entfernen. Verlässt der Anführer die Gilde, wird das dienstälteste Mitglied zum neuen Anführer.</li>
+                            </ul>
+                             <h4>📈 Wöchentliche Rangliste</h4>
+                            <p>Jede Woche kämpfen alle Gilden um die Vorherrschaft. Ihr sammelt als Gilde Punkte durch die Leistungen eurer Mitglieder (gespielte Spiele, erzielte Punkte, Siege). Am Ende der Woche werden die besten Gilden mit exklusiven Belohnungen und Ruhm überhäuft!</p>
+                        </section>
+
+                        <section id="community" class="rules-section">
+                            <h3>Community & Account</h3>
+                            <h4>📜 Verhaltenskodex</h4>
+                            <p>Quizlino ist eine Community. Damit alle Spaß haben, bitten wir dich, folgende Regeln zu beachten:</p>
+                            <ul>
+                                <li><strong>Fairplay:</strong> Der Einsatz von externen Programmen, Bots oder Cheats ist streng verboten und führt zum permanenten Ausschluss.</li>
+                                <li><strong>Respekt:</strong> Keine Beleidigungen, Hassrede, Belästigung oder Diskriminierung im Chat.</li>
+                                <li><strong>Kein Spam:</strong> Vermeide das wiederholte Senden von Nachrichten und unterlasse Werbung für andere Produkte oder Dienste.</li>
+                                <li><strong>Konsequenzen:</strong> Verstöße können je nach Schwere zu einer temporären Stummschaltung oder einem permanenten Bann deines Accounts und deiner IP-Adresse führen.</li>
+                            </ul>
+                            <h4>🚩 Das Meldesystem</h4>
+                            <p>Du hilfst uns, die Community sauber zu halten. So funktioniert es:</p>
+                            <ul>
+                                <li><strong>Nachricht melden:</strong> Siehst du im Chat eine unangemessene Nachricht, klicke auf den kleinen "!"-Button daneben.</li>
+                                <li><strong>Was passiert dann?:</strong> Deine Meldung wird mit der Nachricht und optional deinem Kommentar an die Moderatoren gesendet. Diese prüfen den Fall und ergreifen bei Bedarf Maßnahmen.</li>
+                                <li><strong>Verantwortung:</strong> Bitte missbrauche das System nicht für Falschmeldungen. Dies kann ebenfalls Konsequenzen haben.</li>
+                            </ul>
+                            <h4>⚙️ Account-Verwaltung</h4>
+                            <ul>
+                                <li><strong>Name & Avatar:</strong> Deinen Namen legst du beim ersten Start fest. Deinen Avatar kannst du jederzeit in der Lobby aus deinen freigeschalteten Avataren auswählen.</li>
+                                <li><strong>Account-Sicherheit:</strong> Dein Account ist an einen geheimen Token gebunden, der in deinem Browser gespeichert wird. Teile diesen niemals mit anderen. Wenn du auf einem neuen Gerät spielen willst, musst du einen neuen Account erstellen.</li>
+                                <li><strong>Account unwiderruflich löschen:</strong> Wenn du deinen Account löschen möchtest, gehe in dein <strong>Profil</strong> und scrolle ganz nach unten in die "Gefahrenzone". Klicke auf "Meinen Account dauerhaft löschen". Du musst zur Bestätigung deinen exakten Spielernamen eingeben. <strong>Achtung:</strong> Diese Aktion ist final und kann nicht rückgängig gemacht werden! Alle deine Fortschritte, Q-Coins, Items und Titel gehen für immer verloren.</li>
+                            </ul>
+                        </section>
+
+                        <section id="about" class="rules-section">
+                            <h3>Über das Spiel</h3>
+                            <h4>📜 Update Log</h4>
+                            <p>Neugierig, was sich zuletzt geändert hat? In der Lobby findest du unten rechts den "Update Log"-Button. Dort listen wir alle wichtigen neuen Features, Bugfixes und Verbesserungen der letzten Versionen auf, damit du immer auf dem neuesten Stand bist.</p>
+                            <h4>👨‍💻 Der Entwickler</h4>
+                            <p>Quizlino ist ein leidenschaftliches Projekt von r0n-dev. Es wurde mit dem Ziel entwickelt, ein faires, spaßiges und herausforderndes Quiz-Erlebnis ohne Pay-to-Win-Mechaniken zu schaffen. Wenn du mehr über die Entwicklung erfahren oder den Entwickler unterstützen möchtest, klicke in der Lobby auf den Button "dev by r0n-dev".</p>
+                            <h4>🔮 Zukunftsausblick</h4>
+                            <p>Die Entwicklung von Quizlino ist noch lange nicht am Ende! Geplant sind unter anderem neue Spielmodi, Dutzende neue Chaos-Events, mehr Anpassungsmöglichkeiten im Shop und saisonale Events. Schau regelmäßig im Update Log vorbei!</p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="finalBountyOverlay" class="overlay hidden">
+            <div class="overlay-box">
+                <h2>Letzte Rache!</h2>
+                <p>Du bist raus, aber nimm jemanden mit! Wähle einen Spieler, um ihm ein Kopfgeld von -75 Punkten aufzuerlegen.</p>
+                <ul id="finalBountyPlayerList" class="final-bounty-list"></ul>
+            </div>
+        </div>
+
+        <div id="customConfirmOverlay" class="overlay hidden">
+            <div class="overlay-box confirm-box">
+                <h2 id="confirmTitle">Bestätigung</h2>
+                <p id="confirmMessage">Bist du sicher?</p>
+                <div class="confirm-buttons">
+                    <button id="confirmBtnNo" class="secondary-action">Abbrechen</button>
+                    <button id="confirmBtnYes" class="danger-btn">Bestätigen</button>
+                </div>
+            </div>
+        </div>
+
+<div id="reportModalOverlay" class="overlay hidden">
+    <div class="overlay-box confirm-box">
+        <h2>Nachricht melden</h2>
+        <p>Du meldest die Nachricht: <strong id="report-message-text" style="color: var(--accent-primary);"></strong></p>
+        <textarea id="report-comment-input" placeholder="Optional: Füge einen Kommentar für die Admins hinzu..." style="width: 100%; min-height: 80px; margin: 15px 0;"></textarea>
+        <div class="confirm-buttons">
+            <button id="reportBtnCancel" class="secondary-action">Abbrechen</button>
+            <button id="reportBtnConfirm" class="danger-btn">Melden</button>
+        </div>
+    </div>
+</div>
+
+        <div id="deleteAccountConfirmOverlay" class="overlay hidden">
+            <div class="overlay-box confirm-box">
+                <h2 id="deleteConfirmTitle">Account wirklich löschen?</h2>
+                <p>Diese Aktion ist endgültig. Um fortzufahren, tippe bitte deinen genauen Spielernamen <strong id="deleteConfirmPlayerName" style="color: var(--accent-primary);"></strong> in das Feld ein.</p>
+                <input type="text" id="deleteConfirmInput" placeholder="Spielername zur Bestätigung..." autocomplete="off">
+                <div class="confirm-buttons" style="margin-top: 20px;">
+                    <button id="deleteConfirmBtnNo" class="secondary-action">Abbrechen</button>
+                    <button id="deleteConfirmBtnYes" class="danger-btn" disabled>Dauerhaft löschen</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="customAlertOverlay" class="overlay hidden">
+            <div class="overlay-box alert-box">
+                <h2 id="alertTitle">Hinweis</h2>
+                <p id="alertMessage"></p>
+                <div class="alert-buttons">
+                    <button id="alertBtnOk">OK</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="achievement-unlocked" class="achievement-unlocked-toast hidden">
+            <div class="achievement-icon">🏆</div>
+            <div class="achievement-details">
+                <div class="achievement-title">Erfolg freigeschaltet!</div>
+                <div class="achievement-name"></div>
+            </div>
+        </div>
+        
+        <div id="level-up-toast" class="achievement-unlocked-toast hidden">
+            <div class="achievement-icon">✨</div>
+            <div class="achievement-details">
+                <div class="achievement-title">Level Up!</div>
+                <div id="level-up-name" class="achievement-name"></div>
+            </div>
+        </div>
+        
+        <button id="chat-open-btn" class="fab">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+        </button>
+    
+        <div id="publicRoomsOverlay" class="overlay hidden">
+            <div class="overlay-box large-box">
+                <div class="overlay-header">
+                    <h2>Öffentliche Spiele</h2>
+                    <button id="closePublicRoomsBtn" class="close-btn">&times;</button>
+                </div>
+                <div class="overlay-content">
+                    <div class="public-rooms-list-container">
+                        <div class="public-rooms-list-header">
+                            <p>Tritt einem Spiel bei oder erstelle dein eigenes in der Lobby!</p>
+                            <button id="refreshRoomsBtnModal" title="Aktualisieren"><i class="material-icons">refresh</i><span>Aktualisieren</span></button>
+                        </div>
+                        <ul id="public-rooms-list-modal" class="public-rooms-list">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div id="aboutDevOverlay" class="overlay hidden">
+    <div class="overlay-box about-box">
+        <button id="closeAboutDevBtn" class="close-btn">&times;</button>
+        <img src="assets/avatars/r0n-dev-avatar.png" alt="r0n-dev Avatar" class="about-avatar">
+        <h2 class="about-name">r0n-dev</h2>
+        <h3 class="about-title">Lead Developer</h3>
+        <p class="about-bio">
+            Hey, ich bin der Entwickler von Quizlino. Dieses Projekt ist aus reiner Leidenschaft für Gaming 
+            und Web-Technologien entstanden. Ich hoffe, du hast Spaß in der Arena!
+        </p>
+        
+        <div class="about-divider"></div>
+        
+<div class="about-links-container">
+    <a href="https://github.com/r0n-dev" class="about-link-btn" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path d="M12 .297C5.373.297 0 5.67 0 12.297c0 5.303 
+            3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 
+            0-.285-.01-1.04-.015-2.04-3.338.727-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.089-.745.083-.73.083-.73 
+            1.205.085 1.84 1.238 1.84 1.238 1.07 1.834 2.809 1.304 
+            3.495.997.108-.775.418-1.304.762-1.604-2.665-.305-5.466-1.334-5.466-5.932 
+            0-1.31.468-2.382 1.236-3.222-.123-.303-.536-1.524.117-3.176 
+            0 0 1.008-.322 3.3 1.23a11.5 11.5 0 0 1 3.003-.404 
+            11.5 11.5 0 0 1 3.003.404c2.29-1.552 3.296-1.23 
+            3.296-1.23.655 1.652.242 2.873.12 3.176.77.84 
+            1.236 1.912 1.236 3.222 0 4.61-2.803 5.624-5.475 
+            5.922.43.372.823 1.102.823 2.222 
+            0 1.606-.015 2.896-.015 3.286 0 .32.216.694.825.576C20.565 
+            22.092 24 17.596 24 12.297 24 5.67 18.627.297 12 .297z"/>
+        </svg>
+        <span>GitHub</span>
+    </a>
+    <a href="https://www.instagram.com/r0n_dev" id="instagram-btn" class="about-link-btn" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 
+            1.366.062 2.633.35 3.608 1.325.975.975 
+            1.263 2.242 1.325 3.608.058 1.266.07 1.646.07 
+            4.85s-.012 3.584-.07 4.85c-.062 1.366-.35 
+            2.633-1.325 3.608-.975.975-2.242 1.263-3.608 
+            1.325-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.35-3.608-1.325-.975-.975-1.263-2.242-1.325-3.608C2.175 
+            15.747 2.163 15.367 2.163 12s.012-3.584.07-4.85c.062-1.366.35-2.633 
+            1.325-3.608.975-.975 2.242-1.263 3.608-1.325C8.416 
+            2.175 8.796 2.163 12 2.163zm0 1.837c-3.17 
+            0-3.552.012-4.805.07-1.042.048-1.61.218-1.983.364-.5.194-.86.428-1.237.804-.376.377-.61.737-.804 
+            1.237-.146.373-.316.941-.364 1.983-.058 1.253-.07 1.635-.07 
+            4.805s.012 3.552.07 4.805c.048 1.042.218 1.61.364 
+            1.983.194.5.428.86.804 1.237.377.376.737.61 
+            1.237.804.373.146.941.316 1.983.364 1.253.058 1.635.07 
+            4.805.07s3.552-.012 4.805-.07c1.042-.048 
+            1.61-.218 1.983-.364.5-.194.86-.428 
+            1.237-.804.376-.377.61-.737.804-1.237.146-.373.316-.941.364-1.983.058-1.253.07-1.635.07-4.805s-.012-3.552-.07-4.805c-.048-1.042-.218-1.61-.364-1.983-.194-.5-.428-.86-.804-1.237-.377-.376-.737-.61-1.237-.804-.373-.146-.941-.316-1.983-.364-1.253-.058-1.635-.07-4.805-.07zm0 
+            3.905a5.933 5.933 0 1 1 0 11.867 5.933 5.933 
+            0 0 1 0-11.867zm0 9.8a3.867 3.867 0 1 0 
+            0-7.733 3.867 3.867 0 0 0 0 7.733zm6.406-10.845a1.386 
+            1.386 0 1 1-2.772 0 1.386 1.386 0 0 1 2.772 0z"/>
+        </svg>
+        <span>Instagram</span>
+    </a>
+        </div>
+    </div>
+</div>
+
+
+        <div id="updateLogOverlay" class="overlay hidden">
+            <div class="overlay-box about-box">
+                <button id="closeUpdateLogBtn" class="close-btn">&times;</button>
+                <h2 class="about-name">Update Log</h2>
+                <div class="about-divider"></div>
+                <div id="update-log-content" class="update-log-content"></div>
+            </div>
+        </div>
+
+<div id="captchaOverlay" class="overlay hidden">
+    <div class="overlay-box confirm-box">
+        <h2>Sicherheits-Check</h2>
+        <p id="captcha-instruction">Bitte bestätige, dass du kein Roboter bist.</p>
+        <div id="captcha-grid" class="captcha-grid"></div>
+        <div class="confirm-buttons" style="margin-top: 20px;">
+            <button id="captcha-confirm-btn">Bestätigen</button>
+        </div>
+        <p id="captcha-message" class="message-box" style="margin-top: 15px;"></p>
+    </div>
+</div>
+
+        <div id="tutorialOverlay" class="overlay hidden">
+            <div class="overlay-box tutorial-box">
+                <div class="tutorial-header">
+                    <h2>Willkommen bei Quizlino!</h2>
+                    <p>Lerne in wenigen Schritten, wie du die Arena dominierst.</p>
+                </div>
+                <div class="tutorial-content"></div>
+                <div class="tutorial-navigation">
+                    <div id="tutorial-dots" class="tutorial-dots"></div>
+                    <div class="tutorial-buttons">
+                        <button id="tutorial-prev" class="secondary-action">Zurück</button>
+                        <button id="tutorial-next">Weiter</button>
+                        <button id="tutorial-finish" class="hidden">Los geht's!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="jumpscareOverlay" class="overlay hidden"></div>
+
+        <div id="ufo-abduction-container" class="hidden">
+            <div class="ufo-saucer"></div>
+            <div class="ufo-beam"></div>
+        </div>
+
+        <div id="maintenanceOverlay" class="overlay hidden">
+            <div class="overlay-box" style="text-align: center;">
+                <div id="maintenance-lottie" style="width: 200px; height: 200px; margin: 0 auto 20px;"></div>
+                <h2>Wartungsarbeiten</h2>
+                <p id="maintenance-message" style="color: var(--text-secondary);"></p>
+            </div>
+        </div>
+
+        <div id="generalReportOverlay" class="overlay hidden">
+            <div class="overlay-box confirm-box">
+                <h2>Meldung oder Feedback</h2>
+                <p>Wähle eine Kategorie und beschreibe dein Anliegen so detailliert wie möglich.</p>
+                
+                <select id="reportTypeSelect" style="width: 100%; margin-bottom: 15px;">
+                    <option value="player">Einen Spieler melden</option>
+                    <option value="bug">Einen Bug oder Fehler melden</option>
+                    <option value="feedback">Allgemeines Feedback</option>
+                </select>
+
+                <input type="text" id="reportPlayerNameInput" placeholder="Exakter Spielername..." style="width: 100%; margin-bottom: 15px;">
+                
+                <textarea id="reportDetailsInput" placeholder="Bitte beschreibe dein Anliegen hier..." style="width: 100%; min-height: 120px;"></textarea>
+
+                <div class="confirm-buttons" style="margin-top: 20px;">
+                    <button id="reportCancelBtn" class="secondary-action">Abbrechen</button>
+                    <button id="reportSubmitBtn" class="danger-btn">Meldung absenden</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="banScreen" class="overlay hidden">
+            <div class="overlay-box confirm-box">
+                <h2>Du wurdest gebannt!</h2>
+                <p id="banReasonText" style="color: var(--text-secondary); margin-bottom: 10px;">Grund: Wird geladen...</p>
+                <p id="banDurationText" style="color: var(--text-secondary); margin-bottom: 30px;">Dauer: Wird geladen...</p>
+                
+                <div id="appeal-button-container" class="hidden">
+                    <p>Du glaubst, der Bann ist ungerechtfertigt?</p>
+                    <button id="openAppealBtn" class="action-button secondary-action">Unban-Ticket erstellen</button>
+                </div>
+            </div>
+        </div>
+
+<div id="bankOverlay" class="overlay hidden">
+    <div class="overlay-box bank-box">
+        <div class="bank-header">
+            <h2><i class="material-icons">account_balance</i> Quizlino Bank</h2>
+            <button id="closeBankBtn" class="close-btn">×</button>
+        </div>
+        <div class="bank-body">
+            <div id="bank-teller-view" class="bank-view">
+                <div class="teller-avatar">
+                    <i class="material-icons">support_agent</i>
+                </div>
+                <div class="teller-dialogue">
+                    <p><strong>Willkommen bei der Quizlino Bank.</strong></p>
+                    <p>Mein Name ist Coinbert. Wie kann ich dir heute behilflich sein?</p>
+                </div>
+                <div class="bank-main-actions">
+                    <button id="show-loan-view-btn">
+                        <i class="material-icons">add_circle_outline</i>
+                        <span>Kredit aufnehmen</span>
+                    </button>
+                    <button id="show-repay-view-btn">
+                        <i class="material-icons">remove_circle_outline</i>
+                        <span>Schulden zurückzahlen</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="bank-loan-view" class="bank-view hidden">
+                <h4>Wie hoch soll dein Kredit sein?</h4>
+                <p class="section-description">Du kannst bis zu 10.000 leihen. Bestehende Schulden müssen zuerst komplett zurückgezahlt werden.</p>
+                <div class="bank-form-group">
+                    <input type="number" id="loanAmountInput" placeholder="Wunschbetrag..." min="1" max="10000">
+                    <button id="takeLoanBtn">Kredit bestätigen</button>
+                </div>
+                <button class="bank-back-btn"><i class="material-icons">arrow_back</i> Zurück</button>
+            </div>
+
+            <div id="bank-repay-view" class="bank-view hidden">
+                <h4>Wie viel möchtest du zurückzahlen?</h4>
+                 <p class="section-description">Zahle deine Schulden ab, um wieder kreditwürdig zu werden.</p>
+                <div class="bank-form-group">
+                    <input type="number" id="repayAmountInput" placeholder="Rückzahlungsbetrag..." min="1">
+                    <button id="repayDebtBtn">Zahlung bestätigen</button>
+                </div>
+                 <button class="bank-back-btn"><i class="material-icons">arrow_back</i> Zurück</button>
+            </div>
+        </div>
+        <div class="bank-footer">
+            <div class="bank-account-summary">
+                <div class="bank-stat">
+                    <span>Dein Guthaben</span>
+                    <strong id="bank-qcoins-display">0 </strong>
+                </div>
+                <div class="bank-stat">
+                    <span>Aktuelle Schulden</span>
+                    <strong id="bank-debt-display" class="danger-text">0 </strong>
+                </div>
+            </div>
+            <div id="bank-message" class="message-box"></div>
+        </div>
+    </div>
+</div>
+
+<div id="casinoV2Overlay" class="overlay hidden">
+    <div class="overlay-box casino-box-modern">
+        <div class="casino-header-modern">
+            <div class="casino-title-group">
+                <h2><i class="material-icons" style="color: var(--accent-primary);">casino</i> Royal Slots</h2>
+                <small>High Risk, High Reward</small>
+            </div>
+            <div class="header-actions">
+                <button id="togglePaytableBtn" class="icon-btn" title="Gewinntabelle"><i class="material-icons">info</i></button>
+                <button id="closeCasinoBtnV2" class="close-btn">×</button>
+            </div>
+        </div>
+
+        <div class="casino-body-modern">
+            <div id="paytable-overlay" class="paytable-view hidden">
+                <h3>Gewinntabelle</h3>
+                <div class="paytable-grid">
+                    <div class="pay-row"><span>❼❼❼</span> <strong>100x</strong></div>
+                    <div class="pay-row"><span>💎💎💎</span> <strong>50x</strong></div>
+                    <div class="pay-row"><span>BAR BAR BAR</span> <strong>25x</strong></div>
+                    <div class="pay-row"><span>🔔🔔🔔</span> <strong>10x</strong></div>
+                    <div class="pay-row"><span>🍒🍒🍒</span> <strong>5x</strong></div>
+                    <div class="pay-row"><span>🍋🍋🍋</span> <strong>2x</strong></div>
+                    <div class="pay-row"><small>2 Gleiche</small> <strong>Kleiner Gewinn</strong></div>
+                </div>
+            </div>
+
+            <div id="casino-welcome-view" class="casino-view">
+                <div class="casino-intro-card">
+                    <div class="casino-icon-large"><i class="material-icons">monetization_on</i></div>
+                    <h3>Dein Kontostand</h3>
+                    <strong id="casino-qcoins-v2" class="big-balance">0 </strong>
+                    <p>Bist du bereit, dein Glück auf die Probe zu stellen?</p>
+                    <button id="show-slot-machine-btn" class="gold-btn">An den Automaten</button>
+                </div>
+            </div>
+
+            <div id="casino-slot-machine-view" class="casino-view hidden">
+                <div class="slot-machine-frame">
+                    <div class="slot-screen-glass">
+                        <div class="win-line-modern hidden"></div>
+                        <div id="coin-fall-container-v2"></div>
+                        <div class="reel-container-modern">
+                            <div class="reel-modern"><div class="reel-inner-v2"></div></div>
+                            <div class="reel-divider"></div>
+                            <div class="reel-modern"><div class="reel-inner-v2"></div></div>
+                            <div class="reel-divider"></div>
+                            <div class="reel-modern"><div class="reel-inner-v2"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="casino-controls-panel">
+                    <div id="casino-result-message-v2" class="status-display">Platziere deinen Einsatz</div>
+                    
+                    <div class="control-row">
+                        <div class="bet-control">
+                            <label>Einsatz</label>
+                            <input type="number" id="casinoBetInputV2" placeholder="100" min="1">
+                        </div>
+                        <button id="casinoSpinBtnV2" class="spin-btn-modern">
+                            <span>SPIN</span>
+                        </button>
+                    </div>
+                </div>
+                <button class="bank-back-btn simple-link"><i class="material-icons">arrow_back</i> Zurück</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="travelAgencyOverlay" class="overlay hidden">
+    <div class="overlay-box bank-box">
+        <div class="bank-header">
+            <h2 id="travel-agency-title"><i class="material-icons">public</i> Weltreise-Agentur</h2>
+            <button id="closeTravelAgencyBtn" class="close-btn">×</button>
+        </div>
+
+        <div class="bank-body">
+            <div id="travel-welcome-view" class="bank-view">
+                <div class="teller-avatar" style="background: linear-gradient(45deg, #29b6f6, #4caf50);">
+                    <i class="material-icons">flight_takeoff</i>
+                </div>
+                <div class="teller-dialogue">
+                    <p><strong>Hallo Abenteurer! Ich bin Globia.</strong></p>
+                    <p id="globia-welcome-text">Bereit, die Welt zu entdecken und seltene Souvenirs zu sammeln? Wohin soll die Reise gehen?</p>
+                </div>
+                <div class="bank-main-actions">
+                    <button id="show-destinations-btn">
+                        <i class="material-icons">map</i>
+                        <span>Reiseziele ansehen</span>
+                    </button>
+                    <button id="show-album-btn">
+                        <i class="material-icons">collections_bookmark</i>
+                        <span>Mein Souvenir-Album</span>
+                    </button>
+                </div>
+<div id="active-travel-notice" class="hidden" style="margin-top: 20px;">
+    <div id="travel-timer-view">
+        <h4 id="travel-timer-header">Aktives Abenteuer</h4>
+        <p id="travel-timer-destination">Rückkehr aus ... in:</p>
+        <div id="active-travel-timer" class="timer">--:--:--</div>
+    </div>
+    <div id="travel-claim-view" class="hidden">
+        <h4 id="travel-claim-header">Reise beendet!</h4>
+        <p id="travel-claim-destination">Dein Abenteuer ist vorbei. Hol dir deine Belohnung!</p>
+        <button id="claim-travel-reward-btn-v2" class="success" style="margin-top: 15px; width: 100%;">Belohnung abholen</button>
+    </div>
+</div>
+            </div>
+
+            <div id="travel-destinations-view" class="bank-view hidden" style="width: 100%;">
+                <h4>Wohin soll dein nächstes Abenteuer gehen?</h4>
+                <p class="section-description">Jede Reise kostet Q-Coins und erfordert ein bestimmtes Mindestlevel.</p>
+                <div id="destinations-grid-v2" class="destinations-grid-v2">
+                    </div>
+                <button class="bank-back-btn" data-target="welcome"><i class="material-icons">arrow_back</i> Zurück</button>
+            </div>
+
+            <div id="travel-album-view" class="bank-view hidden" style="width: 100%;">
+                <h4>Dein Souvenir-Album</h4>
+                <p class="section-description">Sammle alle Souvenirs einer Region, um exklusive Set-Boni zu erhalten!</p>
+                <div id="album-content-v2" class="album-content-v2">
+                    </div>
+                <button class="bank-back-btn" data-target="welcome"><i class="material-icons">arrow_back</i> Zurück</button>
+            </div>
+        </div>
+
+        <div class="bank-footer">
+            <div class="bank-account-summary">
+                 <div class="bank-stat">
+                    <span>Dein Guthaben</span>
+                    <strong id="travel-qcoins-display">0 </strong>
+                </div>
+                <div class="bank-stat">
+                    <span>Dein Level</span>
+                    <strong id="travel-level-display" style="color: var(--accent-info);">Lv. 1</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="travel-reward-modal" class="overlay hidden">
+    <div class="overlay-box confirm-box">
+        <h2 id="travel-reward-title">Reise Abgeschlossen!</h2>
+        <div id="travel-reward-content" style="text-align: left; margin-bottom: 20px;"></div>
+        <div class="alert-buttons">
+            <button id="travel-reward-ok-btn">Fantastisch!</button>
+        </div>
+    </div>
+</div>
+
+<div id="albumOverlay" class="overlay hidden">
+    <div class="overlay-box large-box">
+         <div class="overlay-header">
+            <h2><i class="material-icons">collections_bookmark</i> Souvenir-Album</h2>
+            <button id="closeAlbumBtn" class="close-btn">&times;</button>
+        </div>
+        <div class="overlay-content" id="album-content">
+            </div>
+    </div>
+</div>
+
+<div id="imageViewerOverlay" class="overlay hidden">
+    <div class="image-viewer-content">
+        <button id="closeImageViewerBtn" class="close-btn">&times;</button>
+        <img id="viewerImage" src="" alt="Große Ansicht des Souvenirs">
+    </div>
+</div>
+
+<div id="bsodOverlay">
+    <div class="bsod-sad-face">:(</div>
+    <div class="bsod-text">
+        Auf dem Gerät ist ein Problem aufgetreten. Quizlino muss neu gestartet werden.<br>
+        Es werden einige Fehlerinformationen gesammelt, und dann wird ein Neustart ausgeführt.
+    </div>
+    <div class="bsod-details">
+        <br>0% abgeschlossen<br><br>
+        Stillstandcode: CRITICAL_PROCESS_DIED<br>
+        Fehlerursache: Fehlerinformationen.sys
+    </div>
+</div>
+
+<div id="chatti-container" class="chatti-closed">
+    <div class="chatti-header">
+        <div class="chatti-avatar">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
+                <path d="M12,2A2,2 0 0,1 14,4C14,4.74 13.6,5.39 13,5.73V7H14A7,7 0 0,1 21,14H22A1,1 0 0,1 23,15V18A1,1 0 0,1 22,19H21V20A2,2 0 0,1 19,22H5A2,2 0 0,1 3,20V19H2A1,1 0 0,1 1,18V15A1,1 0 0,1 2,14H3A7,7 0 0,1 10,7H11V5.73C10.4,5.39 10,4.74 10,4A2,2 0 0,1 12,2M7.5,13A2.5,2.5 0 0,0 5,15.5A2.5,2.5 0 0,0 7.5,18A2.5,2.5 0 0,0 10,15.5A2.5,2.5 0 0,0 7.5,13M16.5,13A2.5,2.5 0 0,0 14,15.5A2.5,2.5 0 0,0 16.5,18A2.5,2.5 0 0,0 19,15.5A2.5,2.5 0 0,0 16.5,13Z" />
+            </svg>
+        </div>
+        <span>Frag Chatti!</span>
+        <button id="closeChattiBtn" class="close-btn">&times;</button>
+    </div>
+    <div class="chatti-body">
+        <div id="chatti-messages">
+            <div class="chatti-msg bot">Hi! Ich bin Chatti, dein KI-Assistent. Ich weiß fast alles über Quizlino. Frag mich nach Regeln, Strategien oder Updates!</div>
+        </div>
+        <div class="chatti-input-area">
+            <input type="text" id="chattiInput" placeholder="Deine Frage...">
+            <button id="chattiSendBtn">➤</button>
+        </div>
+    </div>
+    <button id="openChattiBtn" class="chatti-toggle-btn">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="white">
+             <path d="M12,2A2,2 0 0,1 14,4C14,4.74 13.6,5.39 13,5.73V7H14A7,7 0 0,1 21,14H22A1,1 0 0,1 23,15V18A1,1 0 0,1 22,19H21V20A2,2 0 0,1 19,22H5A2,2 0 0,1 3,20V19H2A1,1 0 0,1 1,18V15A1,1 0 0,1 2,14H3A7,7 0 0,1 10,7H11V5.73C10.4,5.39 10,4.74 10,4A2,2 0 0,1 12,2M7.5,13A2.5,2.5 0 0,0 5,15.5A2.5,2.5 0 0,0 7.5,18A2.5,2.5 0 0,0 10,15.5A2.5,2.5 0 0,0 7.5,13M16.5,13A2.5,2.5 0 0,0 14,15.5A2.5,2.5 0 0,0 16.5,18A2.5,2.5 0 0,0 19,15.5A2.5,2.5 0 0,0 16.5,13Z" />
+        </svg>
+    </button>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.5/dist/purify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <script src="app.js"></script>
+    
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="turbulence">
+            <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="3" result="turb"/>
+            <feDisplacementMap in2="turb" in="SourceGraphic" scale="20" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+    </svg>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script> <script src="game-data/chattiData.js"></script> <script src="app.js"></script>
+</body>
+</html>

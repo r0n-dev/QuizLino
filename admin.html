@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Quizlino - Admin-Zentrale</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div id="auth-container">
+        <h1>Admin-Zentrale Login</h1>
+        <p>Authentifizierung erforderlich.</p>
+        <input type="password" id="adminPasswordInput" placeholder="Admin-Passwort">
+        <button id="loginBtn">Anmelden</button>
+        <p id="auth-error" class="error-msg"></p>
+    </div>
+
+    <div id="panel-container" class="hidden">
+        <aside class="sidebar">
+            <div class="sidebar-header">QC-Admin</div>
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-link active" data-view="dashboard"><i class="material-icons">dashboard</i><span>Dashboard</span></a>
+                <a href="#players" class="nav-link" data-view="players"><i class="material-icons">people</i><span>Spieler</span></a>
+                <a href="#guilds" class="nav-link" data-view="guilds"><i class="material-icons">groups</i><span>Gilden</span></a>
+                <a href="#reports" class="nav-link" data-view="reports"><i class="material-icons">flag</i><span>Meldungen</span></a>
+                <a href="#bans" class="nav-link" data-view="bans"><i class="material-icons">gavel</i><span>Banns</span></a>
+                <a href="#unban-requests" class="nav-link" data-view="unban-requests"><i class="material-icons">report</i><span>Unban-Anträge</span></a>
+                <a href="#games" class="nav-link" data-view="games"><i class="material-icons">sports_esports</i><span>Aktive Spiele</span></a>
+                <a href="#server" class="nav-link" data-view="server"><i class="material-icons">dns</i><span>Server</span></a>
+                <a href="#updatelog" class="nav-link" data-view="updatelog"><i class="material-icons">history</i><span>Update Log</span></a>
+                <a href="#ailab" class="nav-link" data-view="ailab"><i class="material-icons">psychology</i><span>KI-Labor</span></a>
+                <a href="#chatspy" class="nav-link" data-view="chatspy"><i class="material-icons">visibility</i><span>Chat Spy</span></a>
+                <a href="#moderation" class="nav-link" data-view="moderation"><i class="material-icons">gavel</i> <span>Filter & Blacklist</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logoutBtn"><i class="material-icons">logout</i><span>Abmelden</span></button>
+            </div>
+        </aside>
+
+        <main class="content">
+            <div id="server" class="tab-content">
+                <h2>Server Verwaltung</h2>
+                <div class="server-actions-grid">
+                    <div class="action-card">
+                        <label for="maintenance-message">Wartungs-Modus</label>
+                        <textarea id="maintenance-message" rows="3" placeholder="Die Standardnachricht wird angezeigt, wenn du dieses Feld leer lässt..."></textarea>
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <button id="enable-maintenance-btn" class="danger">Aktivieren</button>
+                            <button id="disable-maintenance-btn" class="success">Deaktivieren</button>
+                        </div>
+                        <small id="maintenance-status" style="color: var(--text-dark); margin-top: 5px;">Status: Inaktiv</small>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="generic-modal-overlay" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2 id="modal-title">Aktion</h2>
+            <div id="modal-body"></div>
+            <div class="modal-actions">
+                <button class="cancel-btn">Abbrechen</button>
+                <button id="modal-confirm-btn" class="danger">Bestätigen</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.5/dist/purify.min.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
